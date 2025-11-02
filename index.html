@@ -1,198 +1,299 @@
-
----
-
-### 🌐 index.html  （稳定可显示 + 白金科技风）
-```html
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>AI Ethics & Future Outlook — White-Platinum Deck</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="utf-8" />
+<title>AI Ethics & Future Outlook — White-Platinum Deck</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  :root{
+    --bg:#ffffff;
+    --ink:#161a1f;
+    --muted:#5e6b74;
+    --platinum-1:#eef2f5;
+    --platinum-2:#d9e1e6;
+    --platinum-3:#c3ced6;
+    --blue:#4a90e2;
+    --gold:#c9a227;
+    --glass: rgba(255,255,255,.74);
+    --glass-brd: rgba(207,216,220,.75);
+    --shadow: 0 18px 40px rgba(18,24,30,.10);
+    --w: 1280px;  /* slide width for layout max */
+  }
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  html,body{
+    margin:0; height:100%; background:var(--bg); color:var(--ink);
+    font: 16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";
+  }
 
-  <!-- Reveal.js v4 (UMD build = works without bundlers) -->
-  <link rel="stylesheet" href="https://unpkg.com/reveal.js@4.5.0/dist/reveal.css">
-  <link rel="stylesheet" href="https://unpkg.com/reveal.js@4.5.0/dist/theme/white.css" id="theme">
+  /* Fixed platinum lines background */
+  .platinum-lines{
+    position:fixed; inset:0; z-index:0; opacity:.55; pointer-events:none;
+  }
 
-  <style>
-    :root{
-      --ink:#161a1f;
-      --muted:#5e6b74;
-      --platinum1:#eef2f5;
-      --platinum2:#d9e1e6;
-      --platinum3:#c3ced6;
-      --blue:#4a90e2;
-      --gold:#c9a227;
-      --card-bg: rgba(255,255,255,.72);
-      --card-brd: rgba(207,216,220,.7);
-      --shadow: 0 18px 40px rgba(18, 24, 30, .10);
-    }
-    html,body{ background:#fff; color:var(--ink); font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; }
-    .reveal .slides { text-align:left; }
+  /* Deck wrapper */
+  .deck{
+    position:relative; z-index:1;
+    min-height:100vh; display:flex; align-items:center; justify-content:center;
+    overflow:hidden;
+  }
+  .slides{
+    width:min(100%, var(--w)); padding: clamp(12px, 2vw, 28px);
+  }
 
-    /* Platinum gradient header line for H2 */
-    .reveal h2{
-      font-family:'Montserrat',sans-serif;
-      font-weight:700;
-      letter-spacing:.2px;
-      font-size:2.4rem;
-      margin-bottom:.45em;
-      position:relative;
-      background:linear-gradient(90deg,#1f2630,#3b4651);
-      -webkit-background-clip:text;background-clip:text;color:transparent;
-    }
-    .reveal h2::after{
-      content:"";
-      display:block;
-      width:86px;height:3px;margin-top:.35rem;border-radius:2px;
-      background:linear-gradient(90deg, var(--platinum3), var(--blue));
-    }
+  /* Slide blocks */
+  .slide{
+    display:none;
+    transform: translateY(10px);
+    opacity:0;
+    transition: transform .6s ease, opacity .6s ease;
+  }
+  .slide.active{
+    display:block;
+    transform:translateY(0);
+    opacity:1;
+  }
 
-    /* Hero title (optional if you add a title slide later) */
-    .title-hero{
-      font-family:'Montserrat',sans-serif;font-weight:700;
-      font-size:3.4rem; line-height:1.08; letter-spacing:.2px; margin:.2em 0 .15em;
-      background:linear-gradient(90deg,#1b2028,#485461); -webkit-background-clip:text;background-clip:text;color:transparent;
-      filter:drop-shadow(0 2px 0 rgba(0,0,0,.05));
-    }
-    .subtitle{ color:var(--muted); font-size:1.1rem; margin:.4rem 0 0; }
+  /* Headings */
+  h1,h2{ margin:.2em 0 .4em; letter-spacing:.2px; }
+  h1{
+    font-weight:800; font-size: clamp(2rem, 4vw, 3.2rem); line-height:1.08;
+    background:linear-gradient(90deg,#1b2028,#485461);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    filter:drop-shadow(0 2px 0 rgba(0,0,0,.05));
+  }
+  h2{
+    font-weight:800; font-size: clamp(1.6rem, 3vw, 2.4rem);
+    background:linear-gradient(90deg,#1f2630,#3b4651);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    position:relative;
+  }
+  h2::after{
+    content:""; display:block; width:86px; height:3px; margin-top:.35rem; border-radius:2px;
+    background:linear-gradient(90deg, var(--platinum-3), var(--blue));
+  }
+  .subtitle{ color:var(--muted); margin:.2rem 0 1.2rem; }
 
-    /* Glass card */
-    .card{
-      background:var(--card-bg);
-      border:1px solid var(--card-brd);
-      box-shadow:var(--shadow);
-      backdrop-filter: blur(8px);
-      border-radius:18px;
-      padding:1.15rem 1.3rem;
-    }
-    .grid-2{ display:grid; grid-template-columns:1.25fr 1fr; gap:2rem; align-items:start; }
-    @media (max-width: 980px){ .grid-2{ grid-template-columns:1fr; } }
+  /* Layout helpers */
+  .grid-2{
+    display:grid; gap: clamp(16px, 2.4vw, 32px);
+    grid-template-columns: 1.25fr 1fr;
+  }
+  @media (max-width: 960px){ .grid-2{ grid-template-columns:1fr; } }
 
-    ul.clean{ list-style:none; padding:0; margin:0; }
-    ul.clean li{
-      padding:.65rem .9rem; margin:.35rem 0; border-left:3px solid var(--platinum2);
-      background:linear-gradient(180deg,#fff,#f7f9fb);
-      border-radius:10px;
-    }
+  /* Glass cards */
+  .card{
+    background: var(--glass);
+    border:1px solid var(--glass-brd);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(8px);
+    border-radius:18px;
+    padding: clamp(14px, 2vw, 22px);
+  }
 
-    blockquote.quote{
-      margin:0; padding:.9rem 1rem;
-      border-left:4px solid var(--gold);
-      background:linear-gradient(180deg,#fff,#f6f8fa);
-      border-radius:12px; color:#222a31; font-size:1.05rem;
-      box-shadow: 0 10px 26px rgba(18,24,30,.06);
-    }
-    .ref{ color:#7a8792; font-size:.92rem; margin-top:.5rem; }
+  /* Bullets */
+  ul.clean{ list-style:none; padding:0; margin:0; }
+  ul.clean li{
+    padding:.65rem .9rem; margin:.35rem 0; border-left:3px solid var(--platinum-2);
+    background:linear-gradient(180deg,#fff,#f7f9fb);
+    border-radius:10px;
+  }
 
-    /* Decorative platinum lines (fixed background) */
-    .platinum-lines{
-      position:fixed; inset:0; z-index:0; opacity:.55; pointer-events:none;
-    }
+  /* Quote / callout */
+  blockquote.quote{
+    margin:0; padding:.9rem 1rem;
+    border-left:4px solid var(--gold);
+    background:linear-gradient(180deg,#fff,#f6f8fa);
+    border-radius:12px; color:#222a31; font-size:1.05rem;
+    box-shadow: 0 10px 26px rgba(18,24,30,.06);
+  }
+  .ref{ color:#7a8792; font-size:.92rem; margin-top:.5rem; }
+  .note{ color:var(--muted); font-size:.95rem; margin-top:.6rem; }
 
-    /* Elevate slide content above background */
-    .reveal .slides section{ position:relative; z-index:1; }
+  /* Progress bar */
+  .progress{
+    position:fixed; left:0; right:0; bottom:0; height:6px; z-index:3;
+    background:linear-gradient(90deg, rgba(200,210,220,.35), rgba(200,210,220,.15));
+  }
+  .progress .bar{
+    height:100%; width:0%;
+    background:linear-gradient(90deg, var(--platinum-3), var(--blue));
+    transition: width .3s ease;
+  }
 
-    /* Soft float-in */
-    [data-animate]{ animation:floatIn .6s ease-out both; }
-    @keyframes floatIn{ from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:translateY(0)} }
-  </style>
+  /* Nav dots */
+  .dots{
+    position:fixed; right:14px; bottom:14px; z-index:3; display:flex; gap:10px;
+  }
+  .dot{
+    width:11px; height:11px; border-radius:50%;
+    background: #e3e9ee; border: 2px solid #cfd8dc; cursor:pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,.08);
+  }
+  .dot.active{
+    background: var(--blue); border-color: var(--blue);
+  }
+
+  /* Overview mode */
+  .overview .slides{
+    display:grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 18px;
+  }
+  .overview .slide{
+    display:block!important;
+    opacity:1!important; transform:none!important;
+    border:1px solid var(--platinum-2); border-radius:14px; padding:18px; background:#fff;
+    cursor:pointer;
+  }
+
+  /* Helper for small screens spacing */
+  .spacer{ height: .4rem; }
+
+</style>
 </head>
-
 <body>
-  <!-- Background SVG lines -->
-  <svg class="platinum-lines" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-    <defs>
-      <linearGradient id="plgrad" x1="0" x2="1" y1="0" y2="0">
-        <stop offset="0%" stop-color="#cfd8dc"/><stop offset="60%" stop-color="#e9edf1"/><stop offset="100%" stop-color="#b0bec5"/>
-      </linearGradient>
-      <filter id="glow"><feGaussianBlur stdDeviation="3.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-    </defs>
-    <path d="M0,150 C420,40 860,260 1600,120" stroke="url(#plgrad)" stroke-width="2" fill="none" filter="url(#glow)"/>
-    <path d="M0,420 C520,280 940,520 1600,380" stroke="url(#plgrad)" stroke-width="1.6" fill="none" opacity=".7"/>
-    <path d="M0,720 C480,610 940,820 1600,660" stroke="url(#plgrad)" stroke-width="1.2" fill="none" opacity=".55"/>
-  </svg>
 
-  <div class="reveal">
-    <div class="slides">
+<!-- Background SVG platinum lines -->
+<svg class="platinum-lines" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  <defs>
+    <linearGradient id="plgrad" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#cfd8dc"/><stop offset="60%" stop-color="#e9edf1"/><stop offset="100%" stop-color="#b0bec5"/>
+    </linearGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="3.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <path d="M0,150 C420,40 860,260 1600,120" stroke="url(#plgrad)" stroke-width="2" fill="none" filter="url(#glow)"/>
+  <path d="M0,420 C520,280 940,520 1600,380" stroke="url(#plgrad)" stroke-width="1.6" fill="none" opacity=".7"/>
+  <path d="M0,720 C480,610 940,820 1600,660" stroke="url(#plgrad)" stroke-width="1.2" fill="none" opacity=".55"/>
+</svg>
 
-      <!-- Slide 1: Ethical & Regulatory Challenges -->
-      <section data-animate>
-        <h2>Ethical & Regulatory Challenges</h2>
-        <div class="grid-2">
-          <div class="card">
-            <ul class="clean">
-              <li>🧠 <strong>Data Bias</strong> — AI may inherit historical biases</li>
-              <li>🏢 <strong>Power Concentration</strong> — big-tech dominance risks</li>
-              <li>🔍 <strong>Transparency</strong> — traceable & explainable decisions</li>
-            </ul>
-          </div>
-          <div class="card">
-            <blockquote class="quote">
-              “AI can be trained on false or biased information, leading to harmful outcomes.”
-            </blockquote>
-            <div class="ref">Gu, Huang &amp; Vasarhelyi (2024)</div>
-            <p class="subtitle">Bias, inequality, and opacity require professional and regulatory safeguards.</p>
-          </div>
-        </div>
-      </section>
+<div class="deck">
+  <div class="slides">
 
-      <!-- Slide 2: Transparency & Accountability -->
-      <section data-animate>
-        <h2>Transparency &amp; Accountability</h2>
+    <!-- Slide 1: Ethical & Regulatory Challenges -->
+    <section class="slide active" data-title="Ethical & Regulatory Challenges">
+      <h2>Ethical & Regulatory Challenges</h2>
+      <div class="grid-2">
         <div class="card">
           <ul class="clean">
-            <li><strong>Explainability</strong> is essential for ethical assurance</li>
-            <li>Auditors must understand <em>why</em> AI made a decision</li>
-            <li>Ethical foundation: <strong>Integrity · Objectivity · Professional Skepticism</strong></li>
-            <li><strong>Regulatory frameworks</strong> ensure fairness & reliability</li>
+            <li>🧠 <strong>Data Bias</strong> — AI may inherit historical biases</li>
+            <li>🏢 <strong>Power Concentration</strong> — big-tech dominance risks</li>
+            <li>🔍 <strong>Transparency</strong> — traceable & explainable decisions</li>
           </ul>
         </div>
-        <p class="subtitle">AI must not be a black box — human judgment remains central to audit integrity.</p>
-      </section>
-
-      <!-- Slide 3: Future Outlook — “AI = Functionality” -->
-      <section data-animate>
-        <h2>Future Outlook: “AI = Functionality”</h2>
-        <div class="grid-2">
-          <div class="card">
-            <ul class="clean">
-              <li><strong>Enhances</strong> efficiency & insight — does <em>not</em> replace judgment</li>
-              <li>Rise of <strong>small, domain-specific LLMs</strong> on clean internal data</li>
-              <li>Ethics & standards must <strong>co-evolve</strong> with technology</li>
-            </ul>
-          </div>
-          <div class="card">
-            <blockquote class="quote">“AI extends our functionality, but integrity and judgment define our profession.”</blockquote>
-            <p class="subtitle">Treat AI as a capability amplifier — not a substitute for professional skepticism.</p>
-          </div>
+        <div class="card">
+          <blockquote class="quote">
+            “AI can be trained on false or biased information, leading to harmful outcomes.”
+          </blockquote>
+          <div class="ref">Gu, Huang &amp; Vasarhelyi (2024)</div>
+          <p class="note">Bias, inequality, and opacity require professional and regulatory safeguards.</p>
         </div>
-      </section>
+      </div>
+      <div class="spacer"></div>
+    </section>
 
-    </div>
+    <!-- Slide 2: Transparency & Accountability -->
+    <section class="slide" data-title="Transparency & Accountability">
+      <h2>Transparency &amp; Accountability</h2>
+      <div class="card">
+        <ul class="clean">
+          <li><strong>Explainability</strong> is essential for ethical assurance</li>
+          <li>Auditors must understand <em>why</em> AI made a decision</li>
+          <li>Ethical foundation: <strong>Integrity · Objectivity · Professional Skepticism</strong></li>
+          <li><strong>Regulatory frameworks</strong> ensure fairness & reliability</li>
+        </ul>
+      </div>
+      <p class="note">AI must not be a black box — human judgment remains central to audit integrity.</p>
+      <div class="spacer"></div>
+    </section>
+
+    <!-- Slide 3: Future Outlook — “AI = Functionality” -->
+    <section class="slide" data-title="Future Outlook: “AI = Functionality”">
+      <h2>Future Outlook: “AI = Functionality”</h2>
+      <div class="grid-2">
+        <div class="card">
+          <ul class="clean">
+            <li><strong>Enhances</strong> efficiency & insight — does <em>not</em> replace judgment</li>
+            <li>Rise of <strong>small, domain-specific LLMs</strong> on clean internal data</li>
+            <li>Ethics & standards must <strong>co-evolve</strong> with technology</li>
+          </ul>
+        </div>
+        <div class="card">
+          <blockquote class="quote">“AI extends our functionality, but integrity and judgment define our profession.”</blockquote>
+          <p class="note">Treat AI as a capability amplifier — not a substitute for professional skepticism.</p>
+        </div>
+      </div>
+      <div class="spacer"></div>
+    </section>
+
   </div>
+</div>
 
-  <!-- Reveal.js v4 scripts (UMD globals) -->
-  <script src="https://unpkg.com/reveal.js@4.5.0/dist/reveal.js"></script>
-  <script src="https://unpkg.com/reveal.js@4.5.0/plugin/notes/notes.js"></script>
-  <script>
-    Reveal.initialize({
-      hash: true,
-      transition: 'fade',
-      backgroundTransition: 'fade',
-      slideNumber: 'c/t',
-      controls: true,
-      progress: true,
-      plugins: [ RevealNotes ],
-      width: 1280,
-      height: 720,
-      margin: 0.06,
-      center: true
+<!-- Progress bar -->
+<div class="progress" aria-hidden="true"><div class="bar"></div></div>
+
+<!-- Nav dots -->
+<div class="dots" role="navigation" aria-label="Slides"></div>
+
+<script>
+  (function(){
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const dotsWrap = document.querySelector('.dots');
+    const bar = document.querySelector('.bar');
+    let i = 0;
+    let overview = false;
+
+    function clamp(n,min,max){ return Math.max(min, Math.min(max,n)); }
+
+    function render(){
+      slides.forEach((s,idx)=> s.classList.toggle('active', idx===i));
+      const pct = ((i+1)/slides.length)*100;
+      bar.style.width = pct + '%';
+      updateDots();
+      document.title = slides[i].dataset.title + ' — AI White-Platinum Deck';
+      if(overview){
+        document.body.classList.add('overview');
+      }else{
+        document.body.classList.remove('overview');
+      }
+    }
+
+    function next(){ i = clamp(i+1, 0, slides.length-1); render(); }
+    function prev(){ i = clamp(i-1, 0, slides.length-1); render(); }
+    function go(idx){ i = clamp(idx,0,slides.length-1); render(); }
+
+    // Dots
+    function updateDots(){
+      dotsWrap.innerHTML = '';
+      slides.forEach((_,idx)=>{
+        const d = document.createElement('button');
+        d.className = 'dot' + (idx===i?' active':'');
+        d.title = slides[idx].dataset.title || ('Slide '+(idx+1));
+        d.addEventListener('click', ()=>{ overview=false; go(idx); });
+        dotsWrap.appendChild(d);
+      });
+    }
+
+    // Keyboard
+    window.addEventListener('keydown', (e)=>{
+      if(e.key === 'ArrowRight' || e.key === ' '){ e.preventDefault(); if(overview){overview=false; render();} else next(); }
+      if(e.key === 'ArrowLeft'){ e.preventDefault(); if(overview){overview=false; render();} else prev(); }
+      if(e.key === 'Home'){ e.preventDefault(); overview=false; go(0); }
+      if(e.key === 'End'){ e.preventDefault(); overview=false; go(slides.length-1); }
+      if(e.key.toLowerCase() === 'o'){ overview = !overview; render(); }
     });
-  </script>
+
+    // Click a slide in overview to jump
+    document.addEventListener('click', (e)=>{
+      if(!overview) return;
+      const sec = e.target.closest('.slide');
+      if(sec){
+        const idx = slides.indexOf(sec);
+        if(idx>=0){ overview=false; go(idx); }
+      }
+    });
+
+    // Initial
+    render();
+  })();
+</script>
 </body>
 </html>
